@@ -15,12 +15,12 @@
 <h2 style="margin-top:0">Shipment details</h2><div class="form-grid">
 <div class="field"><label>Origin Country</label><select><option>Nigeria</option></select></div>
 <div class="field"><label>Origin City</label><input value="Lagos"></div>
-<div class="field"><label>Destination Region</label><select id="destination"><option value="zone2">West Africa</option><option value="zone3" selected>United Kingdom</option><option value="zone4">Europe</option><option value="zone5">USA &amp; North America</option><option value="zone6">Rest of Africa</option><option value="zone7">UAE &amp; Far Europe</option><option value="zone8">Asia</option><option value="zone9">Latin America &amp; Rest of the World</option></select></div>
+<div class="field"><label for="destination">Destination Country</label><select id="destination" required><option value="United Kingdom">United Kingdom</option></select></div>
 <div class="field"><label>Shipment Type</label><select id="shipmentType"><option value="bags">Bags</option><option value="beverages">Beverages</option><option value="books">Books</option><option value="clothings">Clothings</option><option value="cosmetics">Cosmetics</option><option value="foodstuff">Foodstuff</option><option value="health">Health: Supplements/Medication</option><option value="jewellery-accessories">Jewellery/Accessories</option><option value="personal-effects">Personal Effects</option><option value="products">Products</option><option value="seasoning-spicy">Seasoning/Spicy</option><option value="shoes">Shoes</option><option value="souvenirs">Souvenirs</option><option value="others">Others</option></select></div>
 <div class="field"><label>Actual Shipping Weight</label><div style="display:grid;grid-template-columns:1fr 90px;gap:8px"><input id="weight" type="number" min="0" step=".1" value="10"><select id="weightUnit"><option value="kg">kg</option><option value="lb">lb</option></select></div></div>
 </div><div class="notice" style="margin:18px 0">Shipping fees are calculated using the actual shipping weight.</div>
 <button class="btn btn-primary" type="submit">Calculate Shipping Cost</button></form>
-<div class="result" id="quote-result"><div class="kicker">Estimated shipping price</div><div class="price" id="shippingPrice">₦0</div><div class="muted">Estimated transit: <b id="estimatedTransit" style="color:white">—</b></div>
+<div class="result" id="quote-result"><div class="kicker">Estimated shipping price</div><div class="price" id="shippingPrice">₦0</div><div class="muted">Estimated transit: <b id="estimatedTransit" style="color:white">3–7 days</b></div>
 <div class="breakdown"><div class="row"><span>Actual weight</span><b id="actualWeight">—</b></div><div class="row"><span>Chargeable weight</span><b id="chargeableWeight">—</b></div><div class="row"><span>Rate basis</span><b id="baseCharge">—</b></div><div class="row"><span>Additional fees</span><b id="handlingCharge">Not included</b></div></div>
 <p class="muted" style="font-size:13px">Estimate based on BuyLocate's latest export rate card. Import duty and other applicable charges are not included. Final pricing is subject to validation.</p>
 <a class="btn btn-primary" id="bookingWhatsApp" href="https://wa.me/2348060938754" target="_blank" rel="noopener noreferrer" style="width:100%;text-align:center">Book This Shipment on WhatsApp</a></div></div></section>
@@ -30,4 +30,5 @@
 <div><h4>Company</h4><a href="about.html">About Us</a><a href="how-it-works.html">How It Works</a><a href="faq.html">FAQ</a><a href="blog.html">Blog</a></div>
 <div><h4>Contact</h4><p>3 Aimasiko Street, Off Afariogun street, Oshodi, Lagos</p><p>info@buylocate.com</p></div>
 </div><div class="copyright">© 2026 BuyLocate. All rights reserved. Shipping rates, transit times and customs outcomes are subject to final carrier validation.</div></div></footer>
+<script src="assets/shipping-destinations.js"></script>
 <script src="assets/app.js"></script></body></html>

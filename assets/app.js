@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
   const form=document.getElementById('shipping-form');
   if(form){
+    const destination = document.getElementById('destination');
+    destination.replaceChildren(...Object.keys(shippingDestinations).sort((a,b)=>a.localeCompare(b,'en')).map(name=>new Option(name,name)));
+    destination.value = 'United Kingdom';
     const ids=['weight','destination','shipmentType'];
     ids.forEach(id=>document.getElementById(id)?.addEventListener('input',calculate));
     document.getElementById('weightUnit')?.addEventListener('change',calculate);
@@ -57,9 +60,9 @@ function calculate(scroll=false){
     zone9:[94013,119469,146271,173759,199232,224714,250204,275683,301163,311198,434778,557814,677807,797806,917812,1037336,1156851,1276377,1395905,1515424,1634957,1742298]
   };
   const over70Rates={zone2:12306,zone3:12429,zone4:12979,zone5:15092,zone6:16704,zone7:17696,zone8:21038,zone9:24890};
-  const zone=val('destination')||'zone3';
+  const zone=shippingDestinations[val('destination')];
   let total=0, rateBasis='Enter shipment weight';
-  if(billedWeight>0 && billedWeight<=70){
+  if(zone && billedWeight>0 && billedWeight<=70){
     const exactIndex=rateWeights.indexOf(billedWeight);
     if(exactIndex>=0){
       total=rates[zone][exactIndex];
@@ -71,7 +74,7 @@ function calculate(scroll=false){
       total=lowerRate+((upperRate-lowerRate)*(billedWeight-lowerWeight)/(upperWeight-lowerWeight));
     }
     rateBasis=billedWeight+' kg published rate';
-  }else if(billedWeight>70){
+  }else if(zone && billedWeight>70){
     const perKg=over70Rates[zone];
     total=billedWeight*perKg;
     rateBasis='₦'+perKg.toLocaleString('en-NG')+'/kg × '+billedWeight+' kg';
@@ -79,13 +82,13 @@ function calculate(scroll=false){
   const money=n=>'₦'+Math.round(n).toLocaleString('en-NG');
   const set=(id,t)=>{const el=document.getElementById(id);if(el)el.textContent=t}
   set('actualWeight',actualTotal.toFixed(2)+' kg');
-  set('chargeableWeight',chargeable.toFixed(2)+' kg (billed as '+billedWeight+' kg)'); set('shippingPrice',money(total));
-  set('baseCharge',rateBasis); set('handlingCharge','Not included'); set('estimatedTransit','5–7 days');
+  set('chargeableWeight',chargeable.toFixed(2)+' kg (billed as '+billedWeight+' kg)'); set('shippingPrice',zone ? money(total) : 'Quote required');
+  set('baseCharge',zone ? rateBasis : 'Contact us for a quote'); set('handlingCharge','Not included'); set('estimatedTransit','3–7 days');
   const destination=document.getElementById('destination');
   const shipmentType=document.getElementById('shipmentType');
   const destinationLabel=destination?.options[destination.selectedIndex]?.text||'';
   const shipmentLabel=shipmentType?.options[shipmentType.selectedIndex]?.text||'';
-  const message='Hello BuyLocate, I would like to book this shipment.\n\nDestination: '+destinationLabel+'\nShipment type: '+shipmentLabel+'\nQuantity: '+qty+'\nActual shipping weight: '+actualTotal.toFixed(2)+' kg\nEstimated shipping price: '+money(total);
+  const message='Hello BuyLocate, I would like to book this shipment.\n\nDestination: '+destinationLabel+'\nShipment type: '+shipmentLabel+'\nActual shipping weight: '+actualTotal.toFixed(2)+' kg\nEstimated shipping price: '+(zone ? money(total) : 'Quote required');
   const bookingLink=document.getElementById('bookingWhatsApp');
   if(bookingLink) bookingLink.href='https://wa.me/2348060938754?text='+encodeURIComponent(message);
   if(scroll) document.getElementById('quote-result')?.scrollIntoView({behavior:'smooth',block:'start'});
